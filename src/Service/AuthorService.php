@@ -15,6 +15,11 @@ class AuthorService
         $this->authorRepository = $entityManager->getRepository(Author::class);
     }
 
+    public function getTop3AuthorsWithMostArticlesLastWeek(): ?array
+    {
+        return $this->authorRepository->find3AuthorsWithMostArticlesLastWeek(date("Y-m-d H:i:s", strtotime('-7 day')));
+    }
+
     public function createDefaultAuthors(): void
     {
         $author1 = new Author();
@@ -31,4 +36,6 @@ class AuthorService
 
         $this->entityManager->flush();
     }
+
+    
 }

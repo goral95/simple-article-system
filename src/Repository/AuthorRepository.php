@@ -39,6 +39,27 @@ class AuthorRepository extends ServiceEntityRepository
         }
     }
 
+    public function find3AuthorsWithMostArticlesLastWeek(string $date): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT author.id as authorId, author.name, COUNT(author.id) AS articleNubmers
+                FROM author 
+                JOIN article_author aa
+                ON author.id = aa.author_id
+                JOIN article
+                ON article.id = aa.article_id
+                WHERE article.created_at > :date
+                GROUP BY author.id
+                ORDER BY articleNubmers DESC
+                LIMIT 3';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['date' => $date]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return Author[] Returns an array of Author objects
 //     */
