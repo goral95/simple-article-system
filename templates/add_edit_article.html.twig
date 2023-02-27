@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <h2 class = "row justify-content-center text-secondary mt-2"> 
+        ADD/EDIT ARTICLE FORM
+    </h2>
+    <div class = "col-4 offset-4">
+    {{ form(form, {attr: {'novalidate': 'novalidate'}}) }}
+    
+    {% for message in app.flashes('success') %}
+        <div class = "alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+{% endblock %}
